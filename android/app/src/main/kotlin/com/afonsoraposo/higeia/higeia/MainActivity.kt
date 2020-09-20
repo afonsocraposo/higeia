@@ -1,4 +1,4 @@
-package com.afonsoraposo.higeia.higeia
+package com.afonsoraposo.higeia
 
 import io.flutter.embedding.android.FlutterActivity
 
