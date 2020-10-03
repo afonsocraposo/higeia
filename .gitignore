@@ -47,4 +47,4 @@ app.*.map.json
 ./android/key.properties
 
 # Google Services - Firebase
-./android/app/google-services.json
+android/app/google-services.json
