@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 import '../utils/colors.dart';
+import '../utils/fire.dart';
 import '../ui/infoDialog.dart';
 import '../ui/backTopBar.dart';
 import '../ui/myButton.dart';
@@ -81,13 +82,23 @@ class LoginScreenState extends State<LoginScreen> {
     setState(() {
       _signingin = true;
     });
-    await auth
-        .signInWithCredential(credential)
-        .then((UserCredential userCredential) {
-      Navigator.of(context).pushReplacementNamed("/home");
-    }).catchError((onError) {
-      print(onError);
-    });
+    await auth.signInWithCredential(credential).then(
+      (UserCredential userCredential) async {
+        if (await Fire.userExists(userCredential.user.uid)) {
+          Navigator.of(context).pushReplacementNamed("/home");
+        } else {
+          if (await Fire.alreadyAcceptedTerms()) {
+            Navigator.of(context).pushReplacementNamed("/register");
+          } else {
+            Navigator.of(context).pushReplacementNamed("/consent");
+          }
+        }
+      },
+    ).catchError(
+      (onError) {
+        print(onError);
+      },
+    );
     setState(() {
       _signingin = false;
     });
@@ -201,6 +212,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 maxLines: 1,
                                 inputFormatters: <TextInputFormatter>[
                                   FilteringTextInputFormatter.digitsOnly,
+                                  LengthLimitingTextInputFormatter(16),
                                 ],
                                 onChanged: (text) {
                                   if (text.length == 9) {
@@ -227,7 +239,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   hintText: 'Type here...',
                                   errorStyle:
                                       TextStyle(fontWeight: FontWeight.bold),
-                                  hintStyle: TextStyle(color: Colors.white30),
+                                  hintStyle: TextStyle(color: Colors.white38),
                                 ),
                               ),
                             ),
@@ -307,7 +319,7 @@ class LoginScreenState extends State<LoginScreen> {
                                     hintText: 'Type here...',
                                     errorStyle:
                                         TextStyle(fontWeight: FontWeight.bold),
-                                    hintStyle: TextStyle(color: Colors.white30),
+                                    hintStyle: TextStyle(color: Colors.white38),
                                   ),
                                 ),
                               ),
@@ -397,7 +409,7 @@ class LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 fontSize: 62,
                                 fontWeight: FontWeight.bold,
-                                color: mainGreen,
+                                color: MyColors.mainGreen,
                               ),
                             ),
                             SizedBox(height: 8),
@@ -406,7 +418,7 @@ class LoginScreenState extends State<LoginScreen> {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: mainGreen,
+                                color: MyColors.mainGreen,
                               ),
                             ),
                           ],
@@ -480,7 +492,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   context: context,
                                   builder: (context) => HELP_DIALOG);
                             },
-                            color: lightGrey,
+                            color: MyColors.lightGrey,
                             child:
                                 Icon(Icons.info_outline, color: Colors.black),
                           ),
@@ -499,7 +511,7 @@ class LoginScreenState extends State<LoginScreen> {
                             ? 400 + MediaQuery.of(context).viewInsets.bottom
                             : 250,
                         width: width,
-                        color: greenSwatch[800],
+                        color: MyColors.greenSwatch[800],
                         alignment: Alignment.bottomCenter,
                         child: SingleChildScrollView(
                           padding: EdgeInsets.symmetric(
@@ -519,7 +531,9 @@ class LoginScreenState extends State<LoginScreen> {
                                   curve: Curves.fastOutSlowIn,
                                   height: _login && _codeSent ? 72 : 0,
                                   child: MyButton(
-                                    color: _codeReady ? mainGreen : Colors.grey,
+                                    color: _codeReady
+                                        ? MyColors.mainGreen
+                                        : Colors.grey,
                                     onPressed: () {
                                       if (_codeReady) {
                                         loginWithPhone(_countryCode +
@@ -536,7 +550,7 @@ class LoginScreenState extends State<LoginScreen> {
                                           _codeSent &&
                                           (_codeController.text.length != 6))
                                       ? Colors.grey
-                                      : mainGreen,
+                                      : MyColors.mainGreen,
                                   onPressed: _handleSignInButton,
                                   widget: _signingin ||
                                           (_askedCode && !_codeSent)
@@ -559,7 +573,7 @@ class LoginScreenState extends State<LoginScreen> {
                                   duration: Duration(milliseconds: 250),
                                   height: _login ? 0 : 72,
                                   child: MyButton(
-                                    color: greenSwatch[800],
+                                    color: MyColors.greenSwatch[800],
                                     borderWidth: 3,
                                     onPressed: () {
                                       Navigator.of(context).pushNamed("/about");
@@ -594,4 +608,3 @@ class LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-

@@ -41,7 +41,7 @@ class MyTopBar extends StatelessWidget implements PreferredSizeWidget {
             top: MediaQuery.of(context).padding.top,
             bottom: 30,
           ),
-          color: mainGreen,
+          color: MyColors.mainGreen,
           height: double.infinity,
         ),
       ),

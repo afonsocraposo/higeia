@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
+import 'utils/fire.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
 
@@ -18,10 +20,19 @@ class SplashScreenState extends State<SplashScreen> {
 
   void isUserLoggedIn() async {
     User user = FirebaseAuth.instance.currentUser;
-    if (user != null)
-      Navigator.of(context).pushReplacementNamed("/home");
-    else
+    if (user != null) {
+      if (await Fire.userExists(user.uid)) {
+        Navigator.of(context).pushReplacementNamed("/home");
+      } else {
+        if (await Fire.alreadyAcceptedTerms()) {
+          Navigator.of(context).pushReplacementNamed("/register");
+        } else {
+          Navigator.of(context).pushReplacementNamed("/consent");
+        }
+      }
+    } else {
       Navigator.of(context).pushReplacementNamed("/login");
+    }
   }
 
   @override

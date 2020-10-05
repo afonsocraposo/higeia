@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import 'register.dart';
 import '../ui/myButton.dart';
 import '../ui/myTopBar.dart';
 import '../utils/colors.dart';
+import '../utils/fire.dart';
 
 class ConsentScreen extends StatefulWidget {
-  const ConsentScreen(this.userID, {Key key}) : super(key: key);
-
-  final String userID;
+  const ConsentScreen({Key key}) : super(key: key);
 
   @override
   _ConsentScreenState createState() => _ConsentScreenState();
@@ -227,15 +225,10 @@ class _ConsentScreenState extends State<ConsentScreen> {
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: MyButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
-                    MaterialPageRoute(
-                      builder: (BuildContext context) => RegisterScreen(
-                        widget.userID,
-                      ),
-                    ),
-                  );
+                  Fire.acceptTerms();
+                  Navigator.of(context).pushReplacementNamed("/register");
                 },
-                color: _ready ? mainGreen : Colors.grey,
+                color: _ready ? MyColors.mainGreen : MyColors.grey,
                 text: "Accept",
               ),
             ),

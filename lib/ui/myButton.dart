@@ -6,11 +6,12 @@ class MyButton extends StatelessWidget {
     this.text = "",
     this.widget,
     this.textColor = Colors.white,
-    this.color = mainGreen,
+    this.color = MyColors.mainGreen,
     this.margin = const EdgeInsets.symmetric(vertical: 8),
     @required this.onPressed,
-    this.borderColor = mainGreen,
+    this.borderColor = MyColors.mainGreen,
     this.borderWidth = 0,
+    this.elevation = 2,
     Key key,
   }) : super(key: key);
 
@@ -22,6 +23,7 @@ class MyButton extends StatelessWidget {
   final Color borderColor;
   final double borderWidth;
   final EdgeInsets margin;
+  final double elevation;
 
   @override
   Widget build(BuildContext context) => Container(
@@ -29,6 +31,7 @@ class MyButton extends StatelessWidget {
         height: 56,
         width: double.infinity,
         child: RaisedButton(
+          elevation: this.elevation,
           onPressed: this.onPressed,
           shape: RoundedRectangleBorder(
             side: borderWidth != 0

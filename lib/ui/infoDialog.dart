@@ -38,7 +38,7 @@ class InfoDialog extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(
                   fontSize: 16,
-                  color: mainGreen,
+                  color: MyColors.mainGreen,
                   fontWeight: FontWeight.bold,
                 ),
               ),

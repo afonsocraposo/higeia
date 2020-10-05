@@ -20,7 +20,7 @@ class BackTopBar extends StatelessWidget {
           curve: Curves.fastOutSlowIn,
           width: active ? 220 : 0,
           height: active ? 170 : 0,
-          color: mainGreen,
+          color: MyColors.mainGreen,
           child: SingleChildScrollView(
             scrollDirection: Axis.vertical,
             reverse: true,
