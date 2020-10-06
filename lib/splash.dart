@@ -38,7 +38,7 @@ class SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     if (waiting) {
       waiting = false;
-      Future.delayed(Duration(seconds: 3)).then((_) => isUserLoggedIn());
+      Future.delayed(Duration(seconds: 2)).then((_) => isUserLoggedIn());
     }
     return Scaffold(
       backgroundColor: MyColors.mainGreen,

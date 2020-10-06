@@ -42,8 +42,10 @@ class _SexScreenState extends State<SexScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                widget
-                                    .selectSex(_isFemale != null ? null : true);
+                                setState(() {
+                                  _isFemale = (_isFemale == null ? true : null);
+                                });
+                                widget.selectSex(_isFemale);
                               },
                               child: AspectRatio(
                                 aspectRatio: 1,
@@ -84,8 +86,11 @@ class _SexScreenState extends State<SexScreen> {
                           children: [
                             GestureDetector(
                               onTap: () {
-                                widget.selectSex(
-                                    _isFemale != null ? null : false);
+                                setState(() {
+                                  _isFemale =
+                                      (_isFemale == null ? false : null);
+                                });
+                                widget.selectSex(_isFemale);
                               },
                               child: AspectRatio(
                                 aspectRatio: 1,
@@ -129,4 +134,3 @@ class _SexScreenState extends State<SexScreen> {
     );
   }
 }
-
