@@ -7,7 +7,7 @@ import 'login/login.dart';
 import 'login/about.dart';
 import 'utils/colors.dart';
 import 'login/register.dart';
-import 'login/consentScreen.dart';
+import 'login/consent.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -42,8 +42,7 @@ class MyApp extends StatelessWidget {
         buttonColor: MyColors.mainGreen,
         fontFamily: "Montserrat",
       ),
-      //home: SplashScreen(),
-      home: RegisterScreen(),
+      home: SplashScreen(),
       routes: <String, WidgetBuilder>{
         '/login': (BuildContext context) => LoginScreen(),
         '/register': (BuildContext context) => RegisterScreen(),

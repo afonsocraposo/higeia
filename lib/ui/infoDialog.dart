@@ -1,62 +1,82 @@
 import 'package:flutter/material.dart';
-import 'dart:math';
 
 import '../utils/colors.dart';
 
 class InfoDialog extends StatelessWidget {
-  const InfoDialog(this.title, this.text, {Key key}) : super(key: key);
+  InfoDialog(
+      {@required this.title,
+      @required this.content,
+      this.icon = const Icon(Icons.info, color: Colors.white, size: 40),
+      Key key})
+      : super(key: key);
+
   final String title;
-  final String text;
+  final String content;
+  final Widget icon;
+
   @override
   Widget build(BuildContext context) {
-    double width = min(0.8 * MediaQuery.of(context).size.width, 400);
-    double height = min(0.6 * MediaQuery.of(context).size.height, 500);
     return Dialog(
-      child: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: height,
-          minWidth: width,
-          maxWidth: width,
-        ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Align(
-              alignment: Alignment.topRight,
-              child: IconButton(
-                icon: Icon(Icons.close, color: Colors.grey),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
+      backgroundColor: Colors.transparent,
+      child: Stack(
+        alignment: Alignment.topCenter,
+        children: <Widget>[
+          Container(
+            // Bottom rectangular box
+            margin: EdgeInsets.only(
+                top: 40), // to push the box half way below circle
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(12),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: Text(
-                this.title,
-                textAlign: TextAlign.center,
-                overflow: TextOverflow.ellipsis,
-                style: TextStyle(
-                  fontSize: 16,
-                  color: MyColors.mainGreen,
-                  fontWeight: FontWeight.bold,
+            padding: EdgeInsets.only(
+                top: 60, left: 20, right: 20), // spacing inside the box
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                Text(
+                  title,
+                  style: Theme.of(context).textTheme.headline5,
                 ),
-              ),
-            ),
-            Padding(
-              padding: EdgeInsets.all(16),
-              child: SingleChildScrollView(
-                child: Container(
-                  child: Text(
-                    this.text,
-                    //textAlign: TextAlign.center,
-                  ),
+                SizedBox(
+                  height: 16,
                 ),
-              ),
+                Text(
+                  content,
+                  style: Theme.of(context).textTheme.bodyText2,
+                  textAlign: TextAlign.center,
+                ),
+                SizedBox(
+                  height: 16,
+                ),
+              ],
             ),
-            SizedBox(height: 8),
-          ],
-        ),
+          ),
+          Positioned(
+            top: 50,
+            right: 10,
+            child: IconButton(
+              icon: Icon(
+                Icons.close,
+              ),
+              color: Colors.grey,
+              onPressed: () {
+                Navigator.of(context).pop("Dismiss");
+              },
+            ),
+          ),
+          CircleAvatar(
+            // Top Circle with icon
+            backgroundColor: MyColors.mainGreen,
+            maxRadius: 40.0,
+            child: IconTheme(
+                data: IconThemeData(
+                  size: 40,
+                  color: Colors.white,
+                ),
+                child: this.icon),
+          ),
+        ],
       ),
     );
   }

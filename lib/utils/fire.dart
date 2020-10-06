@@ -61,4 +61,8 @@ class Fire {
         .get()
         .then((snapshot) => snapshot.exists);
   }
+
+  static Future<void> logout() async {
+    await FirebaseAuth.instance.signOut();
+  }
 }

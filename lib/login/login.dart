@@ -38,9 +38,10 @@ class LoginScreenState extends State<LoginScreen> {
   int _timeOut = TIMEOUT_IN_SECONDS;
   final FocusNode _codeFocusNode = new FocusNode();
   static const TIMEOUT_IN_SECONDS = 90;
-  static const HELP_DIALOG = InfoDialog(
-    "How to sign in?",
-    'To sign in, enter your phone number with the correct country code. You can select your country code by clicking on the left indicator.\nAfter pressing "Sign In", a verification code will be sent to the provided phone number. Enter the verification code and press "Confirm".',
+  final InfoDialog _helpDialog = InfoDialog(
+    title: "How to sign in?",
+    content:
+        'To sign in, enter your phone number with the correct country code. You can select your country code by clicking on the left indicator.\nAfter pressing "Sign In", a verification code will be sent to the provided phone number. Enter the verification code and press "Confirm".',
   );
 
   @override
@@ -487,11 +488,28 @@ class LoginScreenState extends State<LoginScreen> {
                             materialTapTargetSize:
                                 MaterialTapTargetSize.shrinkWrap,
                             padding: EdgeInsets.all(6),
-                            onPressed: () {
-                              showDialog(
-                                  context: context,
-                                  builder: (context) => HELP_DIALOG);
-                            },
+                            onPressed: () => showGeneralDialog(
+                              barrierDismissible: true,
+                              barrierLabel: "Dismiss",
+                              context: context,
+                              barrierColor:
+                                  Colors.black54, // space around dialog
+                              transitionDuration: Duration(milliseconds: 250),
+                              transitionBuilder: (context, a1, a2, child) {
+                                return ScaleTransition(
+                                  scale: CurvedAnimation(
+                                      parent: a1,
+                                      curve: Curves.fastOutSlowIn,
+                                      reverseCurve: Curves.fastOutSlowIn),
+                                  child: _helpDialog,
+                                );
+                              },
+                              pageBuilder: (BuildContext context,
+                                  Animation animation,
+                                  Animation secondaryAnimation) {
+                                return null;
+                              },
+                            ),
                             color: MyColors.lightGrey,
                             child:
                                 Icon(Icons.info_outline, color: Colors.black),

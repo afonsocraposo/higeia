@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 
 import '../ui/myButton.dart';
 import '../ui/myTopBar.dart';
+import '../ui/optionDialog.dart';
 import '../utils/colors.dart';
 import '../utils/fire.dart';
 
@@ -16,6 +17,12 @@ class ConsentScreen extends StatefulWidget {
 class _ConsentScreenState extends State<ConsentScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _ready = false;
+  final OptionDialog _leaveDialog = OptionDialog(
+    title: "Leave?",
+    content: "If you leave now, you'll be logged out.",
+    positiveBtnText: "Leave",
+    isDestructive: true,
+  );
 
   @override
   void initState() {
@@ -38,9 +45,31 @@ class _ConsentScreenState extends State<ConsentScreen> {
     return Scaffold(
       appBar: MyTopBar(
           title: "Terms & Conditions",
-          onPressed: () {
-            //TODO: warning and logout
-            Navigator.of(context).popAndPushNamed("/login");
+          onPressed: () async {
+            bool pop = await showGeneralDialog(
+              barrierDismissible: true,
+              barrierLabel: "Dismiss",
+              context: context,
+              barrierColor: Colors.black54, // space around dialog
+              transitionDuration: Duration(milliseconds: 250),
+              transitionBuilder: (context, a1, a2, child) {
+                return ScaleTransition(
+                  scale: CurvedAnimation(
+                      parent: a1,
+                      curve: Curves.fastOutSlowIn,
+                      reverseCurve: Curves.fastOutSlowIn),
+                  child: _leaveDialog,
+                );
+              },
+              pageBuilder: (BuildContext context, Animation animation,
+                  Animation secondaryAnimation) {
+                return null;
+              },
+            );
+            if (pop ?? false) {
+              await Fire.logout();
+              Navigator.of(context).popAndPushNamed("/login");
+            }
           }),
       body: SafeArea(
         child: Column(

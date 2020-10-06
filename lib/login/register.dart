@@ -7,6 +7,7 @@ import 'registerScreens/heightScreen.dart';
 
 import '../ui/myTopBar.dart';
 import '../ui/myButton.dart';
+import '../ui/optionDialog.dart';
 import '../utils/colors.dart';
 import '../utils/fire.dart';
 
@@ -29,6 +30,14 @@ class _RegisterScreenState extends State<RegisterScreen>
   bool _isFemale;
   int _height = 170;
   int _weight = 60;
+
+  final OptionDialog _leaveDialog = OptionDialog(
+    title: "Leave?",
+    content: "If you leave now, you'll be logged out and lose your progress.",
+    positiveBtnText: "Leave",
+    icon: Icon(Icons.exit_to_app),
+    isDestructive: true,
+  );
 
   void updateName(String name) {
     setState(() {
@@ -81,13 +90,43 @@ class _RegisterScreenState extends State<RegisterScreen>
 
   Future<bool> _willPopCallback() async {
     FocusScope.of(context).unfocus();
+    print(_currentIndex);
+    await _goBack();
+    return false;
+  }
+
+  Future<void> _goBack() async {
     if (_currentIndex > 0) {
       setState(() {
         _tabController.animateTo(_currentIndex - 1);
       });
       return false;
     } else {
-      return true;
+      bool pop = await showGeneralDialog(
+        barrierDismissible: true,
+        barrierLabel: "Dismiss",
+        context: context,
+        barrierColor: Colors.black54, // space around dialog
+        transitionDuration: Duration(milliseconds: 250),
+        transitionBuilder: (context, a1, a2, child) {
+          return ScaleTransition(
+            scale: CurvedAnimation(
+                parent: a1,
+                curve: Curves.fastOutSlowIn,
+                reverseCurve: Curves.fastOutSlowIn),
+            child: _leaveDialog,
+          );
+        },
+        pageBuilder: (BuildContext context, Animation animation,
+            Animation secondaryAnimation) {
+          return null;
+        },
+      );
+      if (pop ?? false) {
+        await Fire.logout();
+        Navigator.of(context).popAndPushNamed("/login");
+      }
+      return false;
     }
   }
 
@@ -172,15 +211,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         resizeToAvoidBottomInset: false,
         appBar: MyTopBar(
           title: _titles[_currentIndex],
-          onPressed: () {
-            if (_currentIndex >= 0) {
-              _tabController.animateTo(_currentIndex - 1);
-            } else {
-              //TODO: warning and logout
-
-              Navigator.of(context).popAndPushNamed("/login");
-            }
-          },
+          onPressed: () async => _goBack(),
         ),
         body: SafeArea(
           child: Column(
