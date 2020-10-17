@@ -5,7 +5,7 @@ import '../ui/myButton.dart';
 import '../ui/myTopBar.dart';
 import '../ui/optionDialog.dart';
 import '../utils/colors.dart';
-import '../utils/fire.dart';
+import '../utils/fireFunctions.dart';
 
 class ConsentScreen extends StatefulWidget {
   const ConsentScreen({Key key}) : super(key: key);
@@ -67,7 +67,7 @@ class _ConsentScreenState extends State<ConsentScreen> {
               },
             );
             if (pop ?? false) {
-              await Fire.logout();
+              await FireFunctions.logout();
               Navigator.of(context).popAndPushNamed("/login");
             }
           }),
@@ -254,7 +254,7 @@ class _ConsentScreenState extends State<ConsentScreen> {
               padding: EdgeInsets.symmetric(horizontal: 24),
               child: MyButton(
                 onPressed: () {
-                  Fire.acceptTerms();
+                  FireFunctions.acceptTerms();
                   Navigator.of(context).pushReplacementNamed("/register");
                 },
                 color: _ready ? MyColors.mainGreen : MyColors.grey,

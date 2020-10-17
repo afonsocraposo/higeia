@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../ui/rangeSelector.dart';
+part of '../register.dart';
 
 class HeightScreen extends StatelessWidget {
   const HeightScreen(

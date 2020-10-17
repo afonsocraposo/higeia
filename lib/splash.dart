@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -5,7 +7,10 @@ import 'package:higeia/utils/colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:math';
 
-import 'utils/fire.dart';
+import 'utils/fireFunctions.dart';
+
+//const SPLASH_DURATION_IN_SECONDS = 2;
+const SPLASH_DURATION_IN_SECONDS = 0;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -15,15 +20,26 @@ class SplashScreen extends StatefulWidget {
 }
 
 class SplashScreenState extends State<SplashScreen> {
-  bool waiting = true;
+  final Completer waiting = Completer<bool>();
+
+  @override
+  void initState() {
+    super.initState();
+    isUserLoggedIn();
+    Timer(
+      Duration(seconds: SPLASH_DURATION_IN_SECONDS),
+      () => waiting.complete(false),
+    );
+  }
 
   void isUserLoggedIn() async {
     User user = FirebaseAuth.instance.currentUser;
+    await waiting.future;
     if (user != null) {
-      if (await Fire.userExists(user.uid)) {
+      if (await FireFunctions.userExists(user.uid)) {
         Navigator.of(context).pushReplacementNamed("/home");
       } else {
-        if (await Fire.alreadyAcceptedTerms()) {
+        if (await FireFunctions.alreadyAcceptedTerms()) {
           Navigator.of(context).pushReplacementNamed("/register");
         } else {
           Navigator.of(context).pushReplacementNamed("/consent");
@@ -36,10 +52,6 @@ class SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    if (waiting) {
-      waiting = false;
-      Future.delayed(Duration(seconds: 2)).then((_) => isUserLoggedIn());
-    }
     return Scaffold(
       backgroundColor: MyColors.mainGreen,
       body: SafeArea(

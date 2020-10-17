@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
-
-import 'registerScreens/nameScreen.dart';
-import 'registerScreens/birthScreen.dart';
-import 'registerScreens/sexScreen.dart';
-import 'registerScreens/heightScreen.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../ui/myTopBar.dart';
 import '../ui/myButton.dart';
 import '../ui/optionDialog.dart';
+import '../ui/rangeSelector.dart';
 import '../utils/colors.dart';
-import '../utils/fire.dart';
+import '../utils/fireFunctions.dart';
+
+part 'registerScreens/nameScreen.dart';
+part 'registerScreens/birthScreen.dart';
+part 'registerScreens/sexScreen.dart';
+part 'registerScreens/heightScreen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key key}) : super(key: key);
@@ -74,7 +77,7 @@ class _RegisterScreenState extends State<RegisterScreen>
       if (_isFemale != null) _tabController.animateTo(_currentIndex + 1);
     } else if (_currentIndex == _titles.length - 1) {
       if (_name.isNotEmpty && _birthDate != null)
-        Fire.newUser(
+        FireFunctions.newUser(
                 name: _name,
                 birthdate: _birthDate,
                 sex: _isFemale ? "F" : "M",
@@ -123,7 +126,7 @@ class _RegisterScreenState extends State<RegisterScreen>
         },
       );
       if (pop ?? false) {
-        await Fire.logout();
+        await FireFunctions.logout();
         Navigator.of(context).popAndPushNamed("/login");
       }
       return false;

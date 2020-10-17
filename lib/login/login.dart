@@ -2,13 +2,13 @@ import 'dart:async';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
 import '../utils/colors.dart';
-import '../utils/fire.dart';
+import '../utils/fireFunctions.dart';
 import '../ui/infoDialog.dart';
 import '../ui/backTopBar.dart';
 import '../ui/myButton.dart';
@@ -85,10 +85,10 @@ class LoginScreenState extends State<LoginScreen> {
     });
     await auth.signInWithCredential(credential).then(
       (UserCredential userCredential) async {
-        if (await Fire.userExists(userCredential.user.uid)) {
+        if (await FireFunctions.userExists(userCredential.user.uid)) {
           Navigator.of(context).pushReplacementNamed("/home");
         } else {
-          if (await Fire.alreadyAcceptedTerms()) {
+          if (await FireFunctions.alreadyAcceptedTerms()) {
             Navigator.of(context).pushReplacementNamed("/register");
           } else {
             Navigator.of(context).pushReplacementNamed("/consent");

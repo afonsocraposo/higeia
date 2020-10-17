@@ -1,8 +1,4 @@
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-
-import '../../utils/colors.dart';
+part of '../register.dart';
 
 class BirthScreen extends StatefulWidget {
   const BirthScreen(this.updateDate, {Key key}) : super(key: key);
@@ -25,6 +21,12 @@ class _BirthScreenState extends State<BirthScreen> {
           DateTime.now().year - 100, DateTime.now().month, DateTime.now().day),
       lastDate: DateTime(
           DateTime.now().year - 18, DateTime.now().month, DateTime.now().day),
+      initialDatePickerMode: DatePickerMode.year,
+      locale: Locale("pt", ""),
+      cancelText: "CANCEL",
+      helpText: "SELECT BIRTHDATE",
+      fieldHintText: "Insert birthdate",
+      confirmText: "OK",
       builder: (BuildContext context, Widget child) {
         return Theme(
           data: ThemeData(
