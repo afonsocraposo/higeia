@@ -9,8 +9,7 @@ import 'dart:math';
 
 import 'utils/fireFunctions.dart';
 
-//const SPLASH_DURATION_IN_SECONDS = 2;
-const SPLASH_DURATION_IN_SECONDS = 0;
+const SPLASH_DURATION_IN_SECONDS = 2;
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key key}) : super(key: key);
@@ -26,28 +25,39 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     isUserLoggedIn();
-    Timer(
-      Duration(seconds: SPLASH_DURATION_IN_SECONDS),
-      () => waiting.complete(false),
-    );
+    print("init");
   }
 
   void isUserLoggedIn() async {
-    User user = FirebaseAuth.instance.currentUser;
-    await waiting.future;
-    if (user != null) {
-      if (await FireFunctions.userExists(user.uid)) {
-        Navigator.of(context).pushReplacementNamed("/home");
-      } else {
-        if (await FireFunctions.alreadyAcceptedTerms()) {
-          Navigator.of(context).pushReplacementNamed("/register");
+    FirebaseAuth.instance.authStateChanges().listen((User user) async {
+      if (user != null) {
+        if (await FireFunctions.userExists(user.uid)) {
+          Navigator.of(context)
+              .pushNamedAndRemoveUntil("/home", ModalRoute.withName('/splash'));
         } else {
-          Navigator.of(context).pushReplacementNamed("/consent");
+          if (await FireFunctions.alreadyAcceptedTerms()) {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                "/register", ModalRoute.withName('/splash'));
+          } else {
+            Navigator.of(context).pushNamedAndRemoveUntil(
+                "/consent", ModalRoute.withName('/splash'));
+          }
         }
+      } else {
+        Navigator.of(context)
+            .pushNamedAndRemoveUntil("/login", ModalRoute.withName('/splash'));
       }
-    } else {
-      Navigator.of(context).pushReplacementNamed("/login");
-    }
+    }, onError: (onError) {
+      print(onError);
+    }, onDone: () {
+      print("onDone");
+    });
+  }
+
+  @override
+  void dispose() {
+    print("dispose");
+    super.dispose();
   }
 
   @override

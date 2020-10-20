@@ -60,9 +60,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      //home: SplashScreen(),
+      //initialRoute: "/splash",
       home: HappinessView(),
       routes: <String, WidgetBuilder>{
+        '/splash': (BuildContext context) => SplashScreen(),
         '/login': (BuildContext context) => LoginScreen(),
         '/register': (BuildContext context) => RegisterScreen(),
         '/consent': (BuildContext context) => ConsentScreen(),

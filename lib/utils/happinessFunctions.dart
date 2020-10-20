@@ -16,25 +16,43 @@ class HappinessFunctions {
         .delete();
   }
 
+  static Future<void> removeLastHappiness() async {
+    String docID = (await FireFunctions.getMeasurementsReference()
+            .collection("happiness")
+            .orderBy("timestamp", descending: true)
+            .limit(1)
+            .get())
+        ?.docs
+        ?.first
+        ?.id;
+    if (docID != null) removeHappiness(docID);
+  }
+
   static CollectionReference getHappinessReference() =>
       FireFunctions.getMeasurementsReference().collection("happiness");
 
-  static Stream<QuerySnapshot> getHappinessStream(
-      {@required DateTime start, @required DateTime end}) {
-    return getHappinessReference()
-        .orderBy(
-          "timestamp",
-          descending: true,
-        )
-        .where(
-          "timestamp",
-          isGreaterThanOrEqualTo: Timestamp.fromDate(start.toUtc()),
-        )
-        .where(
-          "timestamp",
-          isLessThanOrEqualTo: Timestamp.fromDate(end.toUtc()),
-        )
-        .snapshots();
+  static Stream<List<Happiness>> getHappinessStream(
+      {DateTime start, DateTime end}) {
+    Query query = getHappinessReference().orderBy(
+      "timestamp",
+    );
+    if (start != null)
+      query = query.where(
+        "timestamp",
+        isGreaterThanOrEqualTo: Timestamp.fromDate(start.toUtc()),
+      );
+    if (end != null)
+      query = query.where(
+        "timestamp",
+        isLessThanOrEqualTo: Timestamp.fromDate(end.toUtc()),
+      );
+    return query.snapshots().map(
+          (QuerySnapshot querySnapshot) => List<Happiness>.from(
+              querySnapshot.docs.map(
+                (QueryDocumentSnapshot snap) => Happiness.fromDocument(snap),
+              ),
+              growable: false),
+        );
   }
 
   static Future<DateTime> getFirstHappinessDateTime() async {

@@ -3,6 +3,8 @@ import 'package:higeia/utils/colors.dart';
 
 import '../utils/fireFunctions.dart';
 
+const MINIMUM_TIME_IN_MINUTES = 60;
+
 class HappinessMeter extends StatefulWidget {
   const HappinessMeter({Key key}) : super(key: key);
 
@@ -22,23 +24,33 @@ class _HappinessMeterState extends State<HappinessMeter> {
     Colors.red,
     Colors.orange,
     Colors.yellow,
+    MyColors.mainGreen,
     MyColors.mainBlue,
-    MyColors.mainGreen
   ];
-  double _happiness = (happinessEmoji.length / 2).ceilToDouble();
+  static double _happiness = (happinessEmoji.length / 2).ceilToDouble();
   String _previousID;
-  bool _submitted = false;
+  Widget _chartButton;
 
   @override
   void initState() {
     super.initState();
+    _chartButton = RawMaterialButton(
+      shape: CircleBorder(),
+      fillColor: MyColors.mainGreen,
+      child: Icon(
+        Icons.insert_chart,
+        color: Colors.white,
+      ),
+      onPressed: () {
+        Navigator.of(context).pushNamed("/chart");
+      },
+    );
   }
 
   void _setHappiness(double happiness) async {
-    _previousID = await HappinessFunctions.addHappiness(happiness.toInt());
+    String id = await HappinessFunctions.addHappiness(happiness.toInt());
     setState(() {
-      _happiness = happiness;
-      _submitted = true;
+      _previousID = id;
     });
   }
 
@@ -46,10 +58,11 @@ class _HappinessMeterState extends State<HappinessMeter> {
     if (_previousID != null) {
       HappinessFunctions.removeHappiness(_previousID);
       _previousID = null;
+    } else {
+      HappinessFunctions.removeLastHappiness();
     }
     setState(() {
       _happiness = (happinessEmoji.length / 2).ceilToDouble();
-      _submitted = false;
     });
   }
 
@@ -63,108 +76,98 @@ class _HappinessMeterState extends State<HappinessMeter> {
       ),
       child: Container(
         padding: EdgeInsets.all(8),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          mainAxisSize: MainAxisSize.min,
-          children: _submitted
-              ? [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            //vertical: 8,
-                            horizontal: 20,
+        child: FutureBuilder(
+          future: HappinessFunctions.getLastHappinessDateTime(),
+          builder: (BuildContext context, AsyncSnapshot<DateTime> snap) =>
+              Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisSize: MainAxisSize.min,
+            children:
+                (-(snap?.data?.difference(DateTime.now())?.inMinutes ?? 0) >
+                        MINIMUM_TIME_IN_MINUTES)
+                    ? [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  //vertical: 8,
+                                  horizontal: 20,
+                                ),
+                                child: Text("How are you feeling?"),
+                              ),
+                              _chartButton,
+                            ],
                           ),
-                          child: Text("Saved!"),
                         ),
-                        RawMaterialButton(
-                          shape: CircleBorder(),
-                          fillColor: MyColors.mainGreen,
-                          child: Icon(
-                            Icons.insert_chart,
-                            color: Colors.white,
-                          ),
-                          onPressed: () {},
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.all(4),
-                    child: Icon(
-                      Icons.check_circle_outline,
-                      color: MyColors.mainGreen,
-                      size: 48,
-                    ),
-                  ),
-                  FlatButton(
-                    onPressed: _undoHappiness,
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.undo,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(width: 8),
                         Text(
-                          "Undo",
+                          happinessEmoji[_happiness.toInt() - 1],
                           style: TextStyle(
-                            color: Colors.grey,
+                            fontSize: 48,
+                          ),
+                          textAlign: TextAlign.center,
+                        ),
+                        Slider(
+                          onChanged: (double value) =>
+                              setState(() => _happiness = value),
+                          onChangeEnd: _setHappiness,
+                          value: _happiness,
+                          min: 1,
+                          max: happinessEmoji.length.toDouble(),
+                          activeColor: happinessColor[_happiness.toInt() - 1],
+                          inactiveColor: MyColors.grey,
+                          divisions: happinessEmoji.length - 1,
+                          //label: happiness.toStringAsFixed(0),
+                        )
+                      ]
+                    : [
+                        Align(
+                          alignment: Alignment.topLeft,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.symmetric(
+                                  //vertical: 8,
+                                  horizontal: 20,
+                                ),
+                                child: Text("Saved!"),
+                              ),
+                              _chartButton,
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  )
-                ]
-              : [
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
                         Padding(
-                          padding: EdgeInsets.symmetric(
-                            //vertical: 8,
-                            horizontal: 20,
-                          ),
-                          child: Text("How are you feeling?"),
-                        ),
-                        RawMaterialButton(
-                          shape: CircleBorder(),
-                          fillColor: MyColors.mainGreen,
+                          padding: EdgeInsets.all(4),
                           child: Icon(
-                            Icons.insert_chart,
-                            color: Colors.white,
+                            Icons.check_circle_outline,
+                            color: MyColors.mainGreen,
+                            size: 48,
                           ),
-                          onPressed: () {},
                         ),
+                        FlatButton(
+                          onPressed: _undoHappiness,
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Icon(
+                                Icons.undo,
+                                color: Colors.grey,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                "Undo last",
+                                style: TextStyle(
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
                       ],
-                    ),
-                  ),
-                  Text(
-                    happinessEmoji[_happiness.toInt()],
-                    style: TextStyle(
-                      fontSize: 48,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  Slider(
-                    onChanged: (double value) =>
-                        setState(() => _happiness = value),
-                    onChangeEnd: _setHappiness,
-                    value: _happiness,
-                    min: 1,
-                    max: happinessEmoji.length.toDouble(),
-                    activeColor: happinessColor[_happiness.toInt() - 1],
-                    inactiveColor: MyColors.grey,
-                    divisions: happinessEmoji.length - 1,
-                    //label: happiness.toStringAsFixed(0),
-                  ),
-                ],
+          ),
         ),
       ),
     );

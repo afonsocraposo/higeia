@@ -85,7 +85,8 @@ class LoginScreenState extends State<LoginScreen> {
     });
     await auth.signInWithCredential(credential).then(
       (UserCredential userCredential) async {
-        if (await FireFunctions.userExists(userCredential.user.uid)) {
+        String userID = userCredential.user.uid;
+        if (await FireFunctions.userExists(userID)) {
           Navigator.of(context).pushReplacementNamed("/home");
         } else {
           if (await FireFunctions.alreadyAcceptedTerms()) {
