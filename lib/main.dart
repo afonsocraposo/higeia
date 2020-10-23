@@ -9,7 +9,7 @@ import 'login/about.dart';
 import 'utils/colors.dart';
 import 'login/register.dart';
 import 'login/consent.dart';
-import 'view/happiness/happinessView.dart';
+import 'view/happiness/happiness_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

@@ -1,15 +1,13 @@
 import 'dart:async';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import '../../data/happiness.dart';
-import '../../utils/fireFunctions.dart';
+import '../../utils/fire_functions.dart';
 import '../../utils/colors.dart';
 import '../../utils/utils.dart';
-import '../../ui/colorTopBar.dart';
-import '../../ui/timeSeries.dart';
+import '../../ui/color_top_bar.dart';
+import '../../ui/time_series.dart';
 
 const LOAD_DAYS = 30;
 const List<String> HAPPINESS_EMOJI = <String>[

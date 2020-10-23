@@ -7,7 +7,7 @@ import 'package:higeia/utils/colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:math';
 
-import 'utils/fireFunctions.dart';
+import 'utils/fire_functions.dart';
 
 const SPLASH_DURATION_IN_SECONDS = 2;
 

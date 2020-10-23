@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../ui/myButton.dart';
-import '../ui/myTopBar.dart';
-import '../ui/optionDialog.dart';
+import '../ui/my_button.dart';
+import '../ui/my_top_bar.dart';
+import '../ui/option_dialog.dart';
 import '../utils/colors.dart';
-import '../utils/fireFunctions.dart';
+import '../utils/fire_functions.dart';
 
 class ConsentScreen extends StatefulWidget {
   const ConsentScreen({Key key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:higeia/measure/happinessMeter.dart';
-import 'package:higeia/view/happiness/happinessView.dart';
+import 'package:higeia/measure/happiness_meter.dart';
+import 'package:higeia/view/happiness/happiness_view.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);

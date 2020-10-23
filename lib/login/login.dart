@@ -8,10 +8,10 @@ import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
 
 import '../utils/colors.dart';
-import '../utils/fireFunctions.dart';
-import '../ui/infoDialog.dart';
-import '../ui/backTopBar.dart';
-import '../ui/myButton.dart';
+import '../utils/fire_functions.dart';
+import '../ui/info_dialog.dart';
+import '../ui/back_top_bar.dart';
+import '../ui/my_button.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);

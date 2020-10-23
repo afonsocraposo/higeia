@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 
-import '../ui/backTopBar.dart';
+import '../ui/back_top_bar.dart';
 
 class About extends StatefulWidget {
   const About({Key key}) : super(key: key);

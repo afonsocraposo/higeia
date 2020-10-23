@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
-import '../ui/myTopBar.dart';
-import '../ui/myButton.dart';
-import '../ui/optionDialog.dart';
-import '../ui/rangeSelector.dart';
+import '../ui/my_top_bar.dart';
+import '../ui/my_button.dart';
+import '../ui/option_dialog.dart';
+import '../ui/range_selector.dart';
 import '../utils/colors.dart';
-import '../utils/fireFunctions.dart';
+import '../utils/fire_functions.dart';
 
-part 'registerScreens/nameScreen.dart';
-part 'registerScreens/birthScreen.dart';
-part 'registerScreens/sexScreen.dart';
-part 'registerScreens/heightScreen.dart';
+part 'register_screens/name_screen.dart';
+part 'register_screens/birth_screen.dart';
+part 'register_screens/sex_screen.dart';
+part 'register_screens/height_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key key}) : super(key: key);

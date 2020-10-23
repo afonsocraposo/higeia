@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:higeia/utils/colors.dart';
 
-import '../utils/fireFunctions.dart';
+import '../utils/fire_functions.dart';
 
 const MINIMUM_TIME_IN_MINUTES = 60;
 

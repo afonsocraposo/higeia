@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:higeia/data/happiness.dart';
 
-part 'happinessFunctions.dart';
+part 'happiness_functions.dart';
 
 class FireFunctions {
   static String getUserID() {

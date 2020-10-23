@@ -1,4 +1,4 @@
-part of 'fireFunctions.dart';
+part of 'fire_functions.dart';
 
 class HappinessFunctions {
   static Future<String> addHappiness(int value) async {
