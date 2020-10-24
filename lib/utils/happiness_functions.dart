@@ -1,5 +1,7 @@
 part of 'fire_functions.dart';
 
+const HAPPINESS_TIMEOUT_IN_MINUTES = 10;
+
 class HappinessFunctions {
   static Future<String> addHappiness(int value) async {
     DocumentReference docRef =
@@ -68,6 +70,16 @@ class HappinessFunctions {
         .toLocal();
   }
 
+  static Future<bool> readyNewHappiness() async {
+    DateTime lastDateTime = await getLastHappinessDateTime();
+    return DateTime.now().difference(lastDateTime).inMinutes >
+        HAPPINESS_TIMEOUT_IN_MINUTES;
+  }
+
+  static int getTimeout() {
+    return HAPPINESS_TIMEOUT_IN_MINUTES;
+  }
+
   static Future<DateTime> getLastHappinessDateTime() async {
     return (await getHappinessReference()
             .orderBy("timestamp")
@@ -79,5 +91,11 @@ class HappinessFunctions {
         .data()["timestamp"]
         .toDate()
         .toLocal();
+  }
+
+  static Future<void> updateHappiness(Happiness happiness) async {
+    await getHappinessReference()
+        .doc(happiness.id)
+        .update(happiness.toDocument());
   }
 }

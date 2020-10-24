@@ -6,12 +6,12 @@ import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:flutter/material.dart';
-
-import '../utils/colors.dart';
-import '../utils/fire_functions.dart';
-import '../ui/info_dialog.dart';
-import '../ui/back_top_bar.dart';
-import '../ui/my_button.dart';
+import 'package:higeia/ui/dialogs/info_dialog.dart';
+import 'package:higeia/ui/inputs/my_button.dart';
+import 'package:higeia/ui/topbars/back_top_bar.dart';
+import 'package:higeia/utils/fire_functions.dart';
+import 'package:higeia/values/animations.dart';
+import 'package:higeia/values/colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key key}) : super(key: key);
@@ -148,10 +148,8 @@ class LoginScreenState extends State<LoginScreen> {
 
   Widget _loginCredentials() => AnimatedContainer(
         alignment: Alignment.center,
-        curve: Curves.fastOutSlowIn,
-        duration: Duration(
-          milliseconds: 250,
-        ),
+        curve: ANIMATION_CURVE,
+        duration: SHORT_ANIMATION,
         height: _login ? 190 : 0,
         child: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
@@ -254,7 +252,7 @@ class LoginScreenState extends State<LoginScreen> {
               ),
               AnimatedContainer(
                 curve: Curves.fastOutSlowIn,
-                duration: Duration(milliseconds: 250),
+                duration: SHORT_ANIMATION,
                 height: _codeSent ? 150 : 0,
                 child: SingleChildScrollView(
                   physics: NeverScrollableScrollPhysics(),
@@ -394,7 +392,7 @@ class LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.topCenter,
                     child: AnimatedContainer(
-                      duration: Duration(milliseconds: 250),
+                      duration: SHORT_ANIMATION,
                       curve: Curves.fastOutSlowIn,
                       padding: EdgeInsets.symmetric(
                         vertical: 80,
@@ -433,7 +431,7 @@ class LoginScreenState extends State<LoginScreen> {
                     child: ClipPath(
                       clipper: OvalTopBorderClipper(),
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 250),
+                        duration: SHORT_ANIMATION,
                         height: _login
                             ? 500 + MediaQuery.of(context).viewInsets.bottom
                             : 450,
@@ -447,7 +445,7 @@ class LoginScreenState extends State<LoginScreen> {
                     child: ClipPath(
                       clipper: OvalTopBorderClipper(),
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 250),
+                        duration: SHORT_ANIMATION,
                         height: _login
                             ? 450 + MediaQuery.of(context).viewInsets.bottom
                             : 350,
@@ -459,7 +457,7 @@ class LoginScreenState extends State<LoginScreen> {
                   Align(
                     alignment: Alignment.bottomCenter,
                     child: AnimatedContainer(
-                      duration: Duration(milliseconds: 250),
+                      duration: SHORT_ANIMATION,
                       curve: Curves.fastOutSlowIn,
                       padding: _login
                           ? EdgeInsets.only(bottom: 180)
@@ -477,7 +475,7 @@ class LoginScreenState extends State<LoginScreen> {
                     child: Padding(
                       padding: EdgeInsets.only(top: 32, right: 32),
                       child: AnimatedContainer(
-                        duration: Duration(milliseconds: 250),
+                        duration: SHORT_ANIMATION,
                         curve: Curves.fastOutSlowIn,
                         width: _login ? 36 : 0,
                         height: 36,
@@ -495,7 +493,7 @@ class LoginScreenState extends State<LoginScreen> {
                               context: context,
                               barrierColor:
                                   Colors.black54, // space around dialog
-                              transitionDuration: Duration(milliseconds: 250),
+                              transitionDuration: SHORT_ANIMATION,
                               transitionBuilder: (context, a1, a2, child) {
                                 return ScaleTransition(
                                   scale: CurvedAnimation(
@@ -525,7 +523,7 @@ class LoginScreenState extends State<LoginScreen> {
                       clipper: OvalTopBorderClipper(),
                       child: AnimatedContainer(
                         curve: Curves.fastOutSlowIn,
-                        duration: Duration(milliseconds: 250),
+                        duration: SHORT_ANIMATION,
                         height: _login
                             ? 400 + MediaQuery.of(context).viewInsets.bottom
                             : 250,
@@ -546,7 +544,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 AnimatedContainer(
                                   margin: EdgeInsets.only(
                                       top: _login && _codeSent ? 0 : 72),
-                                  duration: Duration(milliseconds: 250),
+                                  duration: SHORT_ANIMATION,
                                   curve: Curves.fastOutSlowIn,
                                   height: _login && _codeSent ? 72 : 0,
                                   child: MyButton(
@@ -589,7 +587,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 ),
                                 AnimatedContainer(
                                   curve: Curves.fastOutSlowIn,
-                                  duration: Duration(milliseconds: 250),
+                                  duration: SHORT_ANIMATION,
                                   height: _login ? 0 : 72,
                                   child: MyButton(
                                     color: MyColors.greenSwatch[800],
@@ -603,7 +601,7 @@ class LoginScreenState extends State<LoginScreen> {
                                 AnimatedContainer(
                                     margin: EdgeInsets.only(top: 24),
                                     curve: Curves.fastOutSlowIn,
-                                    duration: Duration(milliseconds: 250),
+                                    duration: SHORT_ANIMATION,
                                     height: _login
                                         ? MediaQuery.of(context)
                                             .viewInsets

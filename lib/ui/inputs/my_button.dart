@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:higeia/utils/colors.dart';
+import 'package:higeia/values/colors.dart';
 
 class MyButton extends StatelessWidget {
   const MyButton({

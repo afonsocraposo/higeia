@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-
-import '../ui/my_button.dart';
-import '../ui/my_top_bar.dart';
-import '../ui/option_dialog.dart';
-import '../utils/colors.dart';
-import '../utils/fire_functions.dart';
+import 'package:higeia/ui/dialogs/option_dialog.dart';
+import 'package:higeia/ui/inputs/my_button.dart';
+import 'package:higeia/ui/topbars/my_top_bar.dart';
+import 'package:higeia/utils/fire_functions.dart';
+import 'package:higeia/values/colors.dart';
 
 class ConsentScreen extends StatefulWidget {
   const ConsentScreen({Key key}) : super(key: key);

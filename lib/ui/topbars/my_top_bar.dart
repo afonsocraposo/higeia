@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_custom_clippers/flutter_custom_clippers.dart';
-
-import '../utils/colors.dart';
+import 'package:higeia/values/colors.dart';
 
 class MyTopBar extends StatelessWidget implements PreferredSizeWidget {
   MyTopBar({@required this.title, @required this.onPressed, Key key})

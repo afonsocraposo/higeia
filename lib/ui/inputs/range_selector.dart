@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-
-import '../utils/colors.dart';
+import 'package:higeia/values/colors.dart';
 
 typedef OnItemSelected = void Function(num selectedValue);
 

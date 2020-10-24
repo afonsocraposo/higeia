@@ -2,7 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:higeia/utils/colors.dart';
+import 'package:higeia/data/date_value.dart';
+import 'package:higeia/values/colors.dart';
 
 typedef OnSelectionChanged(int index);
 
@@ -81,21 +82,22 @@ class _TimeSeriesState extends State<TimeSeries> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
     if (widget.selectedIndex != null) {
       start = widget.data[widget.selectedIndex].timestamp
           .subtract(Duration(days: 3));
       end = widget.data[widget.selectedIndex].timestamp.add(Duration(days: 3));
 
       if (start.isBefore(widget.data.first.timestamp)) {
-        start = widget.data.first.timestamp;
+        start = widget.data.first.timestamp.subtract(Duration(days: 1));
         end = start.add(Duration(days: 7));
       }
-      if (end.isAfter(widget.data.last.timestamp)) {
-        end = widget.data.last.timestamp;
+      if (end.isAfter(now)) {
+        end = now.add(Duration(days: 1));
         start = end.subtract(Duration(days: 7));
       }
     } else {
-      end = widget.end ?? DateTime.now();
+      end = widget.end ?? now.add(Duration(days: 1));
       start = widget.start ?? end.subtract(Duration(days: 7));
     }
     return charts.TimeSeriesChart(
@@ -104,7 +106,8 @@ class _TimeSeriesState extends State<TimeSeries> {
           id: 'data',
           domainFn: (DateValue dateValue, _) => dateValue.timestamp,
           measureFn: (DateValue dateValue, _) => dateValue.value,
-          data: widget.data,
+          data: widget.data.toList()
+            ..add(DateValue(now.add(Duration(days: 1)), null)),
           colorFn: (DateValue dateValue, _) => charts.ColorUtil.fromDartColor(
             widget.lineColor,
           ),
@@ -167,8 +170,7 @@ class _TimeSeriesState extends State<TimeSeries> {
               ),
       ),
       domainAxis: charts.DateTimeAxisSpec(
-        tickProviderSpec:
-            charts.AutoDateTimeTickProviderSpec(includeTime: true),
+        tickProviderSpec: charts.AutoDateTimeTickProviderSpec(),
         viewport: charts.DateTimeExtents(
           start: start,
           end: end,
@@ -187,13 +189,6 @@ class _TimeSeriesState extends State<TimeSeries> {
       ],
     );
   }
-}
-
-class DateValue {
-  final DateTime timestamp;
-  final num value;
-
-  DateValue(this.timestamp, this.value);
 }
 
 class CustomCircleSymbolRenderer extends charts.CircleSymbolRenderer {

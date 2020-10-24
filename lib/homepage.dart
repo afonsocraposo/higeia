@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:higeia/measure/happiness_meter.dart';
-import 'package:higeia/view/happiness/happiness_view.dart';
+import 'package:higeia/measure/happiness/happiness_meter.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key key}) : super(key: key);
@@ -22,9 +21,6 @@ class HomePageState extends State<HomePage> {
           child: Column(
             children: [
               HappinessMeter(),
-              Expanded(
-                child: HappinessView(),
-              ),
               RaisedButton(
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();

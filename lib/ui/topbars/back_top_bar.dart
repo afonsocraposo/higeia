@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../utils/colors.dart';
+import 'package:higeia/values/animations.dart';
+import 'package:higeia/values/colors.dart';
 
 class BackTopBar extends StatelessWidget {
   const BackTopBar(
@@ -16,8 +17,8 @@ class BackTopBar extends StatelessWidget {
       child: ClipPath(
         clipper: BackTopBarClipper(),
         child: AnimatedContainer(
-          duration: Duration(milliseconds: 250),
-          curve: Curves.fastOutSlowIn,
+          duration: SHORT_ANIMATION,
+          curve: ANIMATION_CURVE,
           width: active ? 220 : 0,
           height: active ? 170 : 0,
           color: MyColors.mainGreen,

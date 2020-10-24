@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:higeia/utils/colors.dart';
+import 'package:higeia/values/colors.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'dart:math';
 
@@ -25,7 +25,6 @@ class SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     isUserLoggedIn();
-    print("init");
   }
 
   void isUserLoggedIn() async {

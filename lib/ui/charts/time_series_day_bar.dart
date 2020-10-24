@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
-import 'package:higeia/utils/colors.dart';
+import 'package:higeia/values/colors.dart';
 
 typedef OnSelectionChanged(DateTime dateTime);
 
@@ -187,9 +187,3 @@ class _TimeSeriesBarState extends State<TimeSeriesBar> {
   }
 }
 
-class DateValue {
-  final DateTime timestamp;
-  final num value;
-
-  DateValue(this.timestamp, this.value);
-}

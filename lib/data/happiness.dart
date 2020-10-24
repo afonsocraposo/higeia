@@ -6,10 +6,18 @@ class Happiness {
   int value;
   DateTime timestamp;
 
-  Happiness({@required this.value, @required this.timestamp});
+  Happiness(
+      {@required this.id, @required this.value, @required this.timestamp});
 
   Happiness.fromDocument(DocumentSnapshot doc)
       : id = doc.id,
         value = doc.data()["value"],
         timestamp = doc.data()["timestamp"].toDate().toLocal();
+
+  Map<String, dynamic> toDocument() {
+    return {"value": value, "timestamp": timestamp.toUtc()};
+  }
+
+  Happiness duplicate() =>
+      Happiness(id: this.id, value: this.value, timestamp: this.timestamp);
 }

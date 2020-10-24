@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import '../ui/back_top_bar.dart';
+import 'package:higeia/ui/topbars/back_top_bar.dart';
 
 class About extends StatefulWidget {
   const About({Key key}) : super(key: key);

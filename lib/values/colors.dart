@@ -33,3 +33,11 @@ class MyColors {
     return MaterialColor(color.value, swatch);
   }
 }
+
+const List<Color> HAPPINESS_COLORS = <Color>[
+  Colors.red,
+  Colors.orange,
+  Colors.yellow,
+  MyColors.mainGreen,
+  MyColors.mainBlue,
+];

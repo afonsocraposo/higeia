@@ -6,7 +6,7 @@ import 'splash.dart';
 import 'homepage.dart';
 import 'login/login.dart';
 import 'login/about.dart';
-import 'utils/colors.dart';
+import 'values/colors.dart';
 import 'login/register.dart';
 import 'login/consent.dart';
 import 'view/happiness/happiness_view.dart';
@@ -60,10 +60,10 @@ class MyApp extends StatelessWidget {
           ),
         ),
       ),
-      //initialRoute: "/splash",
-      home: HappinessView(),
+      initialRoute: "/splash",
       routes: <String, WidgetBuilder>{
         '/splash': (BuildContext context) => SplashScreen(),
+        '/happiness': (BuildContext context) => HappinessView(),
         '/login': (BuildContext context) => LoginScreen(),
         '/register': (BuildContext context) => RegisterScreen(),
         '/consent': (BuildContext context) => ConsentScreen(),

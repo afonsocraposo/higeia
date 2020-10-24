@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-
-import '../ui/my_top_bar.dart';
-import '../ui/my_button.dart';
-import '../ui/option_dialog.dart';
-import '../ui/range_selector.dart';
-import '../utils/colors.dart';
-import '../utils/fire_functions.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:higeia/ui/dialogs/option_dialog.dart';
+import 'package:higeia/ui/inputs/my_button.dart';
+import 'package:higeia/ui/inputs/range_selector.dart';
+import 'package:higeia/ui/topbars/my_top_bar.dart';
+import 'package:higeia/utils/fire_functions.dart';
+import 'package:higeia/values/animations.dart';
+import 'package:higeia/values/colors.dart';
 
 part 'register_screens/name_screen.dart';
 part 'register_screens/birth_screen.dart';
@@ -108,13 +110,13 @@ class _RegisterScreenState extends State<RegisterScreen>
         barrierLabel: "Dismiss",
         context: context,
         barrierColor: Colors.black54, // space around dialog
-        transitionDuration: Duration(milliseconds: 250),
+        transitionDuration: SHORT_ANIMATION,
         transitionBuilder: (context, a1, a2, child) {
           return ScaleTransition(
             scale: CurvedAnimation(
                 parent: a1,
-                curve: Curves.fastOutSlowIn,
-                reverseCurve: Curves.fastOutSlowIn),
+                curve: ANIMATION_CURVE,
+                reverseCurve: ANIMATION_CURVE),
             child: _leaveDialog,
           );
         },
