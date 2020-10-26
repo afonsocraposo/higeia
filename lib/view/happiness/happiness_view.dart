@@ -129,6 +129,7 @@ class _HappinessViewState extends State<HappinessView> {
   }
 
   Widget _happinessSelector() => Container(
+        height: 48,
         color: Colors.white,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -152,7 +153,7 @@ class _HappinessViewState extends State<HappinessView> {
                 _happinessDateValue.isNotEmpty
                     ? Utils.formatDateTime(
                         _happinessDateValue[_selectedIndex].timestamp)
-                    : "",
+                    : "error",
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontSize: 17,
@@ -196,10 +197,10 @@ class _HappinessViewState extends State<HappinessView> {
                 SliverAppBar(
                   elevation: 0,
                   backgroundColor: Colors.transparent,
-                  expandedHeight: 300.0,
+                  expandedHeight: 360.0,
                   floating: false,
                   pinned: true,
-                  collapsedHeight: 180,
+                  collapsedHeight: 210,
                   flexibleSpace: LayoutBuilder(
                     builder: (context, constraints) => Stack(
                       children: [
@@ -219,44 +220,54 @@ class _HappinessViewState extends State<HappinessView> {
                             vertical: 8,
                             horizontal: 16,
                           ),
-                          child: Card(
-                            elevation: 2,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Padding(
-                              padding: EdgeInsets.all(8),
-                              child: TimeSeries(
-                                _happinessDateValue,
-                                ticks: [1, 2, 3, 4, 5],
-                                labels: HAPPINESS_EMOJIS,
-                                colorTicks: [0.5, 1.5, 2.5, 3.5, 4.5, 5.5],
-                                lineColor: Colors.black,
-                                grid: false,
-                                markerRadius: 8,
-                                selectedIndex: _happinessDateValue.isNotEmpty
-                                    ? _selectedIndex
-                                    : null,
-                                backgroundColors: HAPPINESS_COLORS
-                                    .map(
-                                        (Color color) => color.withOpacity(0.2))
-                                    .toList(growable: false),
-                                onSelectionChanged: (int index) =>
-                                    setState(() => _selectedIndex = index),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Expanded(
+                                child: Card(
+                                  elevation: 2,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Padding(
+                                    padding: EdgeInsets.all(8),
+                                    child: TimeSeries(
+                                      _happinessDateValue,
+                                      ticks: [1, 2, 3, 4, 5],
+                                      labels: HAPPINESS_EMOJIS,
+                                      colorTicks: [
+                                        0.5,
+                                        1.5,
+                                        2.5,
+                                        3.5,
+                                        4.5,
+                                        5.5
+                                      ],
+                                      lineColor: Colors.black,
+                                      grid: false,
+                                      markerRadius: 8,
+                                      selectedIndex:
+                                          _happinessDateValue.isNotEmpty
+                                              ? _selectedIndex
+                                              : null,
+                                      backgroundColors: HAPPINESS_COLORS
+                                          .map((Color color) =>
+                                              color.withOpacity(0.2))
+                                          .toList(growable: false),
+                                      onSelectionChanged: (int index) =>
+                                          setState(
+                                              () => _selectedIndex = index),
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
+                              _happinessSelector(),
+                            ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),
-                SliverPersistentHeader(
-                  delegate: _SliverAppBarDelegate(
-                    _happinessSelector(),
-                    48,
-                  ),
-                  pinned: true,
                 ),
                 SliverList(
                   delegate: SliverChildListDelegate(
@@ -268,7 +279,7 @@ class _HappinessViewState extends State<HappinessView> {
                                 _happinessValues[_selectedIndex],
                               ),
                             )
-                          : Container()
+                          : Container(),
                     ],
                   ),
                 )

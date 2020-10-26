@@ -1,9 +1,14 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:higeia/data/happiness.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 part 'happiness_functions.dart';
+part 'ppg_functions.dart';
 
 class FireFunctions {
   static String getUserID() {
@@ -71,4 +76,27 @@ class FireFunctions {
 
   static DocumentReference getMeasurementsReference() =>
       FirebaseFirestore.instance.collection("measurements").doc(getUserID());
+
+  static Future<bool> uploadFile(File file, String path) async {
+    final StorageReference storageReference =
+        FirebaseStorage.instance.ref().child("${getUserID()}/$path");
+
+    final StorageUploadTask uploadTask = storageReference.putFile(file);
+
+    final StreamSubscription<StorageTaskEvent> streamSubscription =
+        uploadTask.events.listen((event) {
+      // You can use this to notify yourself or your user in any kind of way.
+      // For example: you could use the uploadTask.events stream in a StreamBuilder instead
+      // to show your user what the current status is. In that case, you would not need to cancel any
+      // subscription as StreamBuilder handles this automatically.
+
+      // Here, every StorageTaskEvent concerning the upload is printed to the logs.
+      print('EVENT ${event.type}');
+    });
+
+    // Cancel your subscription when done.
+    await uploadTask.onComplete;
+    streamSubscription?.cancel();
+    return uploadTask.isSuccessful;
+  }
 }
